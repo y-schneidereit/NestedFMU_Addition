@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fmiModelDescription
+  fmiVersion="2.0"
+  modelName="NestedAddition"
+  guid="{80a437cd-34fd-95f1-ca10-1ac311c31b97}"
+  description=""
+  generationTool="Simulink (R2021b)"
+  version="1.1"
+  variableNamingConvention="structured"
+  generationDateAndTime="2022-02-23T14:59:40Z"
+  numberOfEventIndicators="0">
+
+<CoSimulation
+  modelIdentifier="NestedAddition"
+  canBeInstantiatedOnlyOncePerProcess="true"
+  canNotUseMemoryManagementFunctions="true">
+   <SourceFiles>
+      <File name ="RTWCG_FMU2_target.c"/>
+      <File name ="NestedAddition.c"/>
+      <File name ="RTWCG_FMU_util.c"/>
+      <File name ="NestedAddition_fmu.c"/>
+   </SourceFiles>
+</CoSimulation>
+<DefaultExperiment startTime="0" stopTime="10" stepSize="0.2"/>
+<VendorAnnotations>
+  <Tool name="Simulink">
+    <Simulink>
+      <ImportCompatibility requireRelease="all" requireMATLABOnPath="no" />
+      <SimulinkModelInterface>
+        <Inport dataType="double" portNumber="1" portName="X"/>
+        <Inport dataType="double" portNumber="2" portName="Y"/>
+        <Outport dataType="double" portNumber="1" portName="ERGEBNIS"/>
+      </SimulinkModelInterface>
+    </Simulink>
+  </Tool>
+</VendorAnnotations>
+<ModelVariables>
+  <ScalarVariable name="X" valueReference="0" description="X" causality="input" variability="continuous" >
+    <Real start="0"  />
+  </ScalarVariable> <!-- index="1" -->
+  <ScalarVariable name="Y" valueReference="1" description="Y" causality="input" variability="continuous" >
+    <Real start="0"  />
+  </ScalarVariable> <!-- index="2" -->
+  <ScalarVariable name="ERGEBNIS" valueReference="2" description="ERGEBNIS" causality="output" variability="continuous" initial="calculated">
+    <Real  />
+  </ScalarVariable> <!-- index="3" -->
+  <ScalarVariable name="time" valueReference="3" description="time" causality="independent" variability="continuous" >
+    <Real  />
+  </ScalarVariable> <!-- index="4" -->
+</ModelVariables>
+<ModelStructure>
+  <Outputs>
+    <Unknown index="3" />
+  </Outputs>
+  <InitialUnknowns>
+    <Unknown index="3" />
+  </InitialUnknowns>
+</ModelStructure>
+</fmiModelDescription>
+
