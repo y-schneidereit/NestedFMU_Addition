@@ -1,14 +1,14 @@
 #include <stdio.h>
 
 // model specific constants
-# define GUID "{80a437cd-34fd-95f1-ca10-1ac311c31b97}"
+# define GUID "{59727d70-9c23-5e16-8918-9a66ef1f3ee9}"
 
 #ifndef FMI2_FUNCTION_PREFIX
 #define FMI2_FUNCTION_PREFIX NestedAddition_
 #endif
 
 // no runtime resources
-#define RESOURCE_LOCATION "file:///C:/Users/schyan01/git/fmu_nestedaddition" // absolut path to the unziped fmu
+#define RESOURCE_LOCATION "file:///C:/Users/schyan01/git/fmu_nestedaddition/NestedAddition/resources" // absolut path to the unziped fmu
 #include "fmi2Functions.h"
 
 // callback functions
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 	
 	// Informs the FMU to enter Initialization Mode.
 	CHECK_STATUS(NestedAddition_fmi2EnterInitializationMode(c));
-	/*
+	
 	fmi2ValueReference X_ref = 0;
 	fmi2Real X = 0;
 
@@ -53,39 +53,40 @@ int main(int argc, char *argv[]) {
 
 	fmi2ValueReference ERGEBNIS_ref = 2;
 	fmi2Real ERGEBNIS;
+
+	fmi2ValueReference fmuTime_ref = 3;
+	fmi2Real fmuTime;
 	
 	CHECK_STATUS(NestedAddition_fmi2SetReal(c, &X_ref, 1, &X));
 	CHECK_STATUS(NestedAddition_fmi2SetReal(c, &Y_ref, 1, &Y));
 
 	CHECK_STATUS(NestedAddition_fmi2ExitInitializationMode(c));
 
-	printf("time, x, y, Ergenbis\n");
+	printf("time, X, Y, ERGEBNIS\n");
 	
 	for (int nSteps = 0; nSteps <= 10; nSteps++) {
 
 		Time = nSteps * stepSize;
-
 		
-
 		// set an input
-		CHECK_STATUS(Addition_fmi2SetReal(c, &x_ref, 1, &x));
-		CHECK_STATUS(Addition_fmi2SetReal(c, &y_ref, 1, &y));
+		CHECK_STATUS(NestedAddition_fmi2SetReal(c, &X_ref, 1, &X));
+		CHECK_STATUS(NestedAddition_fmi2SetReal(c, &Y_ref, 1, &Y));
 
-		// perform a simulation step
-		CHECK_STATUS(Addition_fmi2DoStep(c, Time, stepSize, fmi2True));	//The computation of a time step is started.
-		
 		// get an output
-		CHECK_STATUS(Addition_fmi2GetReal(c, &Ergebnis_ref, 1, &Ergebnis));
-
+		CHECK_STATUS(NestedAddition_fmi2GetReal(c, &fmuTime_ref, 1, &fmuTime));
+				
+		// perform a simulation step
+ 		CHECK_STATUS(NestedAddition_fmi2DoStep(c, Time, stepSize, fmi2True));	// The computation of a time step is started.
 		
+		CHECK_STATUS(NestedAddition_fmi2GetReal(c, &ERGEBNIS_ref, 1, &ERGEBNIS));
 
-		printf("%.2f, %.0f, %.0f, %.0f\n", Time, x, y, Ergebnis);
+		printf("%.2f, %.2f, %.0f, %.0f, %.0f\n", Time, fmuTime, X, Y, ERGEBNIS);
 
-		x++;
-		y+=2;
+		X++;
+		Y += 2;
 	}
-
-*/TERMINATE:
+	
+TERMINATE:
 
 	// clean up
 	if (status < fmi2Fatal) {

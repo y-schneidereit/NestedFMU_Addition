@@ -18,7 +18,7 @@ void NestedAddition_step(void)
   real_T stepError;
   if (NestedAddition_DW.FMU_FmuIsInitialized == 0) {
     NestedAddition_DW.FMU_FmuPrevTime = (((NestedAddition_M->Timing.clockTick0+
-      NestedAddition_M->Timing.clockTickH0* 4294967296.0)) * 0.2);
+      NestedAddition_M->Timing.clockTickH0* 4294967296.0)) * 1.0);
     FMU2_enterInitializationMode(&NestedAddition_DW.FMU_FmuStruct);
     realValue = NestedAddition_U.X;
     FMU2_setReal(&NestedAddition_DW.FMU_FmuStruct, 0, 1, &realValue);
@@ -31,16 +31,16 @@ void NestedAddition_step(void)
   } else {
     real_T stepsize;
     stepsize = (((NestedAddition_M->Timing.clockTick0+
-                  NestedAddition_M->Timing.clockTickH0* 4294967296.0)) * 0.2) -
+                  NestedAddition_M->Timing.clockTickH0* 4294967296.0)) * 1.0) -
       NestedAddition_DW.FMU_FmuPrevTime;
     if (stepsize > 0.0) {
-      stepError = stepsize - 0.2;
-      if (stepsize - 0.2 < 0.0) {
-        stepError = 0.2 - stepsize;
+      stepError = stepsize - 1.0;
+      if (stepsize - 1.0 < 0.0) {
+        stepError = 1.0 - stepsize;
       }
 
       if (stepError < 1.1920928955078125E-7) {
-        stepsize = 0.2;
+        stepsize = 1.0;
       }
 
       FMU2_doStep(&NestedAddition_DW.FMU_FmuStruct,
@@ -79,10 +79,10 @@ void NestedAddition_initialize(void)
     boolean_T fmuLogging;
     boolean_T fmuVisible;
     const void *fmu2callbacks;
-    dllLoc = fmu_nestedDLLLocation("94184ebd83e9074cf44fedc599ccb8c5", NULL,
+    dllLoc = fmu_nestedDLLLocation("936e7d274501fbc2a7539035ba5c9206", NULL,
       "Addition.dll");
     fmuInstanceName = fmu_instanceName();
-    fmuLoc = fmu_nestedResourceLocation("94184ebd83e9074cf44fedc599ccb8c5", NULL,
+    fmuLoc = fmu_nestedResourceLocation("936e7d274501fbc2a7539035ba5c9206", NULL,
       0);
     fmu2callbacks = fmu_callback();
     fmuVisible = fmu_fmuVisible();
@@ -97,7 +97,7 @@ void NestedAddition_initialize(void)
   NestedAddition_DW.FMU_FmuIsInitialized = 0;
   FMU2_setupExperiment(&NestedAddition_DW.FMU_FmuStruct, false, 0.001,
                        (((NestedAddition_M->Timing.clockTick0+
-    NestedAddition_M->Timing.clockTickH0* 4294967296.0)) * 0.2), false, 1000.0);
+    NestedAddition_M->Timing.clockTickH0* 4294967296.0)) * 1.0), false, 1000.0);
 }
 
 void NestedAddition_terminate(void)
